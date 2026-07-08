@@ -1,49 +1,100 @@
 let personagem = document.getElementById("personagem");
-let reciclavel = document.getElementById("reciclavel");
+let moeda = document.getElementById("moeda");
 let lixo = document.getElementById("lixo");
 
 let pontos = 0;
+let vidas = 3;
+let fase = 1;
 
-let posX = 50;
-let posY = 170;
+let posX = 60;
+let posY = 200;
 
 
 document.addEventListener("keydown", function(event){
 
-    if(event.key == "ArrowRight"){
-        posX += 15;
+    if(event.key === "ArrowUp"){
+        mover("cima");
     }
 
-    if(event.key == "ArrowLeft"){
-        posX -= 15;
+    if(event.key === "ArrowDown"){
+        mover("baixo");
     }
 
-    if(event.key == "ArrowUp"){
-        posY -= 15;
+    if(event.key === "ArrowLeft"){
+        mover("esquerda");
     }
 
-    if(event.key == "ArrowDown"){
-        posY += 15;
+    if(event.key === "ArrowRight"){
+        mover("direita");
     }
+
+});
+
+
+
+function mover(direcao){
+
+    if(direcao === "cima"){
+        posY -= 20;
+    }
+
+    if(direcao === "baixo"){
+        posY += 20;
+    }
+
+    if(direcao === "esquerda"){
+        posX -= 20;
+    }
+
+    if(direcao === "direita"){
+        posX += 20;
+    }
+
+
+
+    // limites do mapa
+
+    if(posX < 0){
+        posX = 0;
+    }
+
+    if(posY < 0){
+        posY = 0;
+    }
+
+    if(posX > 640){
+        posX = 640;
+    }
+
+    if(posY > 380){
+        posY = 380;
+    }
+
 
 
     personagem.style.left = posX + "px";
     personagem.style.top = posY + "px";
 
 
-    verificarColisao();
+    verificar();
 
-});
+}
 
 
 
-function verificarColisao(){
+
+function verificar(){
+
 
 let jogador = personagem.getBoundingClientRect();
-let item = reciclavel.getBoundingClientRect();
+
+let item = moeda.getBoundingClientRect();
+
 let perigo = lixo.getBoundingClientRect();
 
 
+
+/* coletar moeda */
 
 if(
 jogador.left < item.right &&
@@ -52,22 +103,30 @@ jogador.top < item.bottom &&
 jogador.bottom > item.top
 ){
 
-pontos++;
-
-document.getElementById("pontos").innerHTML=pontos;
-
-document.getElementById("mensagem").innerHTML=
-"🌎 Muito bem! Você ajudou a reciclar!";
+pontos += 10;
 
 
-reciclavel.style.left=
-Math.random()*500+"px";
+document.getElementById("pontos").innerHTML = pontos;
 
-reciclavel.style.top=
-Math.random()*300+"px";
+
+document.getElementById("mensagem").innerHTML =
+"🪙 Você coletou uma moeda ecológica!";
+
+
+moeda.style.left = Math.random()*600+"px";
+
+moeda.style.top = Math.random()*350+"px";
+
+
+
+faseVerificacao();
+
 
 }
 
+
+
+/* bater no lixo */
 
 
 if(
@@ -77,36 +136,150 @@ jogador.top < perigo.bottom &&
 jogador.bottom > perigo.top
 ){
 
-document.getElementById("mensagem").innerHTML=
-"⚠️ Cuidado! O lixo prejudica o meio ambiente.";
 
-pontos--;
+vidas--;
 
-if(pontos<0){
-pontos=0;
+
+document.getElementById("vidas").innerHTML = vidas;
+
+
+document.getElementById("mensagem").innerHTML =
+"🗑️ Cuidado! O lixo prejudica a natureza!";
+
+
+
+lixo.style.left = Math.random()*600+"px";
+
+lixo.style.top = Math.random()*350+"px";
+
+
+
+if(vidas <= 0){
+
+fimDeJogo();
+
 }
 
-document.getElementById("pontos").innerHTML=pontos;
 
 }
 
+
+
 }
+
+
+
+
+function faseVerificacao(){
+
+
+if(pontos >= 50){
+
+fase = 2;
+
+document.getElementById("fase").innerHTML = fase;
+
+
+document.getElementById("mensagem").innerHTML =
+"🌳 Fase 2 liberada! O planeta agradece!";
+
+
+}
+
+
+if(pontos >= 100){
+
+fase = 3;
+
+document.getElementById("fase").innerHTML = fase;
+
+
+document.getElementById("mensagem").innerHTML =
+"🏆 Última fase! Salve o planeta!";
+
+
+}
+
+
+if(pontos >= 150){
+
+vitoria();
+
+}
+
+
+}
+
+
+
+
+function vitoria(){
+
+
+document.getElementById("certificado")
+.classList.remove("oculto");
+
+
+document.getElementById("mensagem").innerHTML =
+"🎉 Parabéns! Você completou a missão verde!";
+
+
+}
+
+
+
+
+function fimDeJogo(){
+
+
+document.getElementById("mensagem").innerHTML =
+"😢 Você perdeu todas as vidas. Tente novamente!";
+
+
+document.getElementById("jogo").style.opacity="0.5";
+
+
+}
+
 
 
 
 function reiniciar(){
 
+
 pontos=0;
 
-posX=50;
-posY=170;
+vidas=3;
+
+fase=1;
+
+
+posX=60;
+
+posY=200;
+
 
 personagem.style.left=posX+"px";
+
 personagem.style.top=posY+"px";
+
 
 document.getElementById("pontos").innerHTML=0;
 
-document.getElementById("mensagem").innerHTML=
+document.getElementById("vidas").innerHTML=3;
+
+document.getElementById("fase").innerHTML=1;
+
+
+document.getElementById("certificado")
+.classList.add("oculto");
+
+
+document.getElementById("jogo").style.opacity="1";
+
+
+document.getElementById("mensagem").innerHTML =
 "🌱 Vamos salvar o planeta!";
+
 
 }
