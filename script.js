@@ -1,134 +1,131 @@
-let cientista = document.getElementById("cientista");
-let frasco = document.getElementById("frasco");
-let perigo = document.getElementById("perigo");
+let jogador = document.getElementById("jogador");
+let obstaculo = document.getElementById("obstaculo");
+let moeda = document.getElementById("moeda");
 
 let pontos = 0;
 let vidas = 3;
 
-let x = 50;
-let y = 200;
+let pulando = false;
 
 
 
-document.addEventListener("keydown", function(event){
+// Movimento do obstáculo
 
-    if(event.key === "ArrowRight"){
-        x += 20;
-    }
+setInterval(function(){
 
-    if(event.key === "ArrowLeft"){
-        x -= 20;
-    }
+    let posicao = obstaculo.offsetLeft;
 
-    if(event.key === "ArrowUp"){
-        y -= 20;
-    }
+    obstaculo.style.left = (posicao - 10) + "px";
 
-    if(event.key === "ArrowDown"){
-        y += 20;
+
+    if(posicao < -50){
+
+        obstaculo.style.left = "800px";
+
     }
 
 
-    limites();
-
-    cientista.style.left = x + "px";
-    cientista.style.top = y + "px";
+    verificarColisao();
 
 
-    verificar();
+},30);
+
+
+
+
+
+// Movimento da moeda
+
+setInterval(function(){
+
+    let posicao = moeda.offsetLeft;
+
+
+    moeda.style.left = (posicao - 8) + "px";
+
+
+    if(posicao < -50){
+
+        moeda.style.left = "800px";
+
+        moeda.style.bottom =
+        Math.random()*200 + "px";
+
+    }
+
+
+    pegarMoeda();
+
+
+},30);
+
+
+
+
+
+// Pular
+
+function pular(){
+
+
+    if(pulando == false){
+
+        pulando = true;
+
+        jogador.classList.add("pular");
+
+
+        setTimeout(function(){
+
+            jogador.classList.remove("pular");
+
+            pulando=false;
+
+
+        },600);
+
+    }
+
+
+}
+
+
+
+
+
+// Tecla espaço
+
+document.addEventListener("keydown",function(event){
+
+    if(event.code=="Space"){
+
+        pular();
+
+    }
 
 });
 
 
 
 
-function limites(){
 
-    if(x < 0){
-        x = 0;
-    }
+// Verificar colisão com obstáculo
 
-    if(y < 0){
-        y = 0;
-    }
-
-    if(x > 640){
-        x = 640;
-    }
-
-    if(y > 380){
-        y = 380;
-    }
-
-}
+function verificarColisao(){
 
 
+let j = jogador.getBoundingClientRect();
 
+let o = obstaculo.getBoundingClientRect();
 
-function verificar(){
-
-
-let jogador = cientista.getBoundingClientRect();
-
-let item = frasco.getBoundingClientRect();
-
-let obstaculo = perigo.getBoundingClientRect();
-
-
-
-/* pegar conhecimento */
-
-if(
-
-jogador.left < item.right &&
-jogador.right > item.left &&
-jogador.top < item.bottom &&
-jogador.bottom > item.top
-
-){
-
-
-pontos += 10;
-
-
-document.getElementById("pontos").innerHTML = pontos;
-
-
-document.getElementById("mensagem").innerHTML =
-"🧪 Excelente! Você encontrou uma descoberta científica!";
-
-
-
-reposicionar(frasco);
-
-
-
-if(pontos >= 100){
-
-document.getElementById("final")
-.classList.remove("escondido");
-
-
-document.getElementById("mensagem").innerHTML =
-"🏆 Laboratório concluído!";
-
-}
-
-
-}
-
-
-
-
-/* tocar no perigo */
 
 
 if(
 
-jogador.left < obstaculo.right &&
-jogador.right > obstaculo.left &&
-jogador.top < obstaculo.bottom &&
-jogador.bottom > obstaculo.top
+j.left < o.right &&
+j.right > o.left &&
+j.top < o.bottom &&
+j.bottom > o.top
 
 ){
 
@@ -140,74 +137,109 @@ document.getElementById("vidas").innerHTML = vidas;
 
 
 document.getElementById("mensagem").innerHTML =
-"☢️ Cuidado! Experimento perigoso!";
+"☄️ Cuidado! Você bateu em um asteroide!";
 
 
 
-reposicionar(perigo);
+obstaculo.style.left="800px";
 
 
 
-if(vidas <= 0){
+if(vidas <=0){
 
 document.getElementById("mensagem").innerHTML =
-"😢 O laboratório fechou. Tente novamente!";
+"💥 Fim da aventura! Clique em reiniciar.";
 
-}
-
-}
-
-
+obstaculo.style.display="none";
 
 }
 
 
+}
 
-
-function reposicionar(objeto){
-
-objeto.style.left =
-Math.random()*600 + "px";
-
-
-objeto.style.top =
-Math.random()*350 + "px";
 
 }
 
 
 
 
+
+// Pegar moeda
+
+function pegarMoeda(){
+
+
+let j = jogador.getBoundingClientRect();
+
+let m = moeda.getBoundingClientRect();
+
+
+
+if(
+
+j.left < m.right &&
+j.right > m.left &&
+j.top < m.bottom &&
+j.bottom > m.top
+
+){
+
+
+pontos +=10;
+
+
+document.getElementById("pontos").innerHTML=pontos;
+
+
+document.getElementById("mensagem").innerHTML =
+"🪙 Moeda espacial coletada!";
+
+
+moeda.style.left="800px";
+
+
+
+if(pontos>=100){
+
+document.getElementById("mensagem").innerHTML =
+"🏆 Parabéns! Você venceu a missão espacial!";
+
+}
+
+
+}
+
+
+}
+
+
+
+
+
+// Reiniciar
 
 function reiniciar(){
 
-pontos = 0;
 
-vidas = 3;
+pontos=0;
 
-
-x = 50;
-
-y = 200;
+vidas=3;
 
 
+document.getElementById("pontos").innerHTML=0;
 
-cientista.style.left = x+"px";
-
-cientista.style.top = y+"px";
-
-
-
-document.getElementById("pontos").innerHTML = 0;
-
-document.getElementById("vidas").innerHTML = 3;
-
-
-document.getElementById("final")
-.classList.add("escondido");
+document.getElementById("vidas").innerHTML=3;
 
 
 document.getElementById("mensagem").innerHTML =
-"🧪 Vamos começar a pesquisa!";
+"🚀 Nova missão iniciada!";
+
+
+obstaculo.style.display="block";
+
+obstaculo.style.left="800px";
+
+moeda.style.left="600px";
+
 
 }
