@@ -1,36 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Missão Planeta Verde</title>
+
+<title>🌱 Missão Planeta Verde</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
 <h1>🌱 Missão Planeta Verde</h1>
 
-<div id="jogo">
+<div class="painel">
 
-    <div id="personagem">🧑‍🌾</div>
+<p>🪙 Pontos: <span id="pontos">0</span></p>
 
-    <div id="lixo">🗑️</div>
+<p>❤️ Vidas: <span id="vidas">3</span></p>
 
-    <div id="reciclavel">♻️</div>
+<p>🏆 Fase: <span id="fase">1</span></p>
 
 </div>
 
-<h2>Pontos: <span id="pontos">0</span></h2>
+
+<div id="jogo">
+
+<div id="arvore">🌳</div>
+
+<div id="abelha">🐝</div>
+
+<div id="personagem">🧑‍🌾</div>
+
+<div id="moeda">🪙</div>
+
+<div id="lixo">🗑️</div>
+
+</div>
+
 
 <p id="mensagem">
-Use as setas do teclado para ajudar o planeta!
+Use as setas ou os botões para salvar o planeta!
 </p>
 
-<button onclick="reiniciar()">🔄 Jogar novamente</button>
+
+<div class="controles">
+
+<button onclick="mover('cima')">⬆️</button>
+
+<br>
+
+<button onclick="mover('esquerda')">⬅️</button>
+
+<button onclick="mover('baixo')">⬇️</button>
+
+<button onclick="mover('direita')">➡️</button>
+
+</div>
+
+
+<button onclick="reiniciar()">
+🔄 Reiniciar jogo
+</button>
+
+
+<div id="certificado" class="oculto">
+
+<h2>🏅 Certificado Verde</h2>
+
+<p>
+Parabéns! Você ajudou a proteger o planeta!
+</p>
+
+<p>
+🌎 Pequenas atitudes fazem grandes mudanças.
+</p>
+
+</div>
+
+
+<audio id="somColeta">
+<source src="coleta.mp3">
+</audio>
+
+
+<audio id="somErro">
+<source src="erro.mp3">
+</audio>
+
 
 
 <script src="script.js"></script>
 
 </body>
+
 </html>
