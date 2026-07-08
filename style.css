@@ -1,36 +1,41 @@
 body {
 
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #d9eaff;
+    margin:0;
+    text-align:center;
+    font-family:Arial, sans-serif;
+    background:#08001a;
+    color:white;
+
 }
 
 
 h1 {
 
-    color: #3b2c8a;
+    color:#00eaff;
 
 }
+
 
 
 .painel {
 
     display:flex;
     justify-content:center;
-    gap:30px;
+    gap:40px;
     font-size:20px;
     font-weight:bold;
 
 }
 
 
-#laboratorio {
 
-    width:700px;
-    height:450px;
+#jogo {
+
+    width:800px;
+    height:350px;
     margin:auto;
-    background:linear-gradient(#555,#222);
-    border:5px solid #111;
+    background:linear-gradient(#05001c,#25105c);
+    border:4px solid #00eaff;
     border-radius:20px;
     position:relative;
     overflow:hidden;
@@ -39,47 +44,66 @@ h1 {
 
 
 
-/* Cientista */
+/* personagem */
 
-#cientista {
+#jogador {
 
     position:absolute;
-    left:50px;
-    top:200px;
+    left:100px;
+    bottom:40px;
+    font-size:60px;
+
+}
+
+
+
+/* moeda */
+
+#moeda {
+
+    position:absolute;
+    right:150px;
+    bottom:180px;
+    font-size:40px;
+
+}
+
+
+
+/* obstáculo */
+
+#obstaculo {
+
+    position:absolute;
+    right:0;
+    bottom:40px;
     font-size:50px;
 
 }
 
 
 
-/* Objetos */
+.pular {
 
-#frasco {
-
-    position:absolute;
-    right:100px;
-    top:80px;
-    font-size:45px;
+    animation:pulo 0.6s;
 
 }
 
 
-#perigo {
 
-    position:absolute;
-    right:180px;
-    bottom:80px;
-    font-size:45px;
+@keyframes pulo {
 
+0%{
+bottom:40px;
 }
 
+50%{
+bottom:180px;
+}
 
-#atomo {
-
-    position:absolute;
-    left:320px;
-    top:100px;
-    font-size:55px;
+100%{
+bottom:40px;
+}
 
 }
 
@@ -87,11 +111,11 @@ h1 {
 
 button {
 
-    margin-top:15px;
+    margin:15px 5px;
     padding:12px 25px;
     border:none;
     border-radius:10px;
-    background:#4b2ea8;
+    background:#00aaff;
     color:white;
     font-size:18px;
     cursor:pointer;
@@ -99,9 +123,10 @@ button {
 }
 
 
+
 button:hover {
 
-    background:#321d75;
+    background:#0077cc;
 
 }
 
@@ -111,26 +136,5 @@ button:hover {
 
     font-size:20px;
     font-weight:bold;
-
-}
-
-
-
-#final {
-
-    background:white;
-    width:350px;
-    margin:20px auto;
-    padding:20px;
-    border-radius:15px;
-    border:3px solid #4b2ea8;
-
-}
-
-
-
-.escondido {
-
-    display:none;
 
 }
